@@ -16,18 +16,48 @@
       <span style="color:brown;" class="mx-4">No Multi Images Found</span>
       <br><br>
       {% endif %}
-  <br>
+
+  <br><br>
+  <div class="product-add">
+    <button class="btn btn-success" title="Add To Cart" value="{{ product.id }}" id="{{ product.name }}">
+      <i class="fas fa-shopping-cart"></i>
+    </button>
+  </div>
+  <br><br>
+
   Name : {{ object.name }} <br>
   <small> {{ object.model }}</small> <br>
+
   {{ object.manufacturer }} / {{ object.category }} <br>
-  {{ object.initial_price }}<br>
-  {{ object.off }}<br>
-  {{ object.final_price }}<br>
-  {{ object.create }}<br>
-  {{ object.update }}<br>
+  Initial Price : {{ object.initial_price }}<br>
+  Off : {{ object.off }}<br>
+  Finall Price : {{ object.final_price }}<br>
+  Create :{{ object.create }}<br>
+  Update : {{ object.update }}<br>
   {% if user.is_staff %}
-    {{ object.stock }}<br>
+    Stock : {{ object.stock }}<br>
   {% endif %}
-  Content : <br> {{ object.desc }}
+  {% if object.tags.all %}
+  <div style="display:flex">
+      {% for tag in object.tags.all|slice:"0:3" %}
+      <a href="{% url 'main:tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+      {% endfor %}
+  </div>
+  {% endif %}
+  Content : <br> <p>{{ object.desc }}</p>
+  <br><br><br><br>
 </div>
+
+<script>
+  $('.product-add button').click( function() {
+      var cname = $(this).attr('id');
+      var cvalue = $(this).val();
+      var d = new Date();
+      d.setTime(d.getTime() + (24*60*60*1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + [cvalue , '1'] + ";" + expires + ";path=/";
+    });
+</script>
+
+
 {% endblock %}

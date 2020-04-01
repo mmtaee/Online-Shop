@@ -51,9 +51,9 @@
                      {% endif %}
                          <center>
                            <div class="product-add">
-                             <!-- <button class="btn btn-success" title="Add To Cart" value="{{ instance.id }}" id="{{ instance.name }}">
+                             <button class="btn btn-success" title="Add To Cart" value="{{ instance.id }}" id="{{ instance.name }}">
                                <i class="fas fa-shopping-cart"></i>
-                             </button> -->
+                             </button>
                            </div>
                          </center>
                  </div>
@@ -65,4 +65,16 @@
 
  </div>
 
+
+ <script>
+   $('.product-add button').click( function() {
+       var cname = $(this).attr('id');
+       var cvalue = $(this).val();
+       var d = new Date();
+       d.setTime(d.getTime() + (24*60*60*1000));
+       var expires = "expires=" + d.toGMTString();
+       document.cookie = cname + "=" + [cvalue , '1'] + ";" + expires + ";path=/";
+     });
+ </script>
+ 
 {% endblock %}
