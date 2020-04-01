@@ -24,6 +24,7 @@ class CategoryObjectMixin(object):
 
 class CategoryListView(ListView):
     template_name = 'category/list.html'
+    queryset = Category.objects.all()
 
 class CategoryCreateView(View):
     template_name = 'category/create.html'
