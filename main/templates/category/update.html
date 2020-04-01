@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <h1>Manufacturer Update Page </h1>
+  <h3>Updating : {{ object }} </h3>
+  <form method="post">{% csrf_token %}
+    {% for field in form %}
+         {{ field }}
+         <div class="valid-feedback">
+           Manufacturer Ok !
+         </div>
+         <br>
+         <span id="message">
+               {% for error in field.errors %}
+               <div class="alert alert-warning" style="width:35%;">
+                 {{ error }}
+               </div>
+               {% endfor %}
+         </span>
+       {% endfor %}
+       <br>
+    <input type="submit" value="Update">
+    <a href="{% url 'main:cate_list' %}">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

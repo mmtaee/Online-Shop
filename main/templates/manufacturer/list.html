@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <h1>Manufacturers List</h1>
+<ul>
+{% for instance in object_list %}
+<li>
+  <img src="{{ instance.image.url }}" alt="" width="200px" height="150px">
+</li>
+<li>
+  Title : <a href="{{ instance.get_absolute_url }}">{{ instance.name }}</a>
+</li>
+<li>
+  Content : <br> {{ instance.desc }}
+</li>
+<br>
+{% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}

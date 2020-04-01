@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <h1>Categories List</h1>
+<ul>
+  Categories :
+{% for instance in object_list %}
+<li>
+   {{ instance.name }}
+</li>
+<br>
+{% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <form method="post">{% csrf_token %}
+    {% for field in form %}
+         {{ field }}
+         <div class="valid-feedback">
+           Manufacturer Ok !
+         </div>
+         <br>
+         <span id="message">
+               {% for error in field.errors %}
+               <div class="alert alert-warning" style="width:35%;">
+                 {{ error }}
+               </div>
+               {% endfor %}
+         </span>
+       {% endfor %}
+       <br>
+    <input type="submit" value="Create">
+  </form>
+</div>
+
+{% endblock %}
