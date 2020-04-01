@@ -5,13 +5,10 @@ from taggit.managers import TaggableManager
 import os
 
 def image_renamer(instance, filename):
-    ext = filename.split('.')[-1]
     class_name = instance.__class__.__name__
     if class_name == "MultipleImages" :
-        file = '{}.{}'.format(instance, ext)
-        return os.path.join(str(class_name), str(instance), file)
-    file = '{}.{}'.format(instance, ext)
-    return os.path.join(str(class_name),file)
+        return os.path.join(str(class_name), str(instance.product), filename)
+    return os.path.join(str(class_name), filename)
 
 class Manufacturer(models.Model):
     name    = models.CharField(max_length=200)
@@ -22,7 +19,7 @@ class Manufacturer(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('main:manu_detail', kwargs={'id':self.id})
+        return reverse('main:manufacturer_detail', kwargs={'id':self.id})
 
 
 class Category(models.Model):
@@ -32,7 +29,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('main:cat_detail', kwargs={'id':self.id})
+        return reverse('main:category_detail', kwargs={'id':self.id})
 
 
 class Product(models.Model):
@@ -65,7 +62,7 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('main:pro_detail', kwargs={'id':self.id})
+        return reverse('main:product_detail', kwargs={'id':self.id})
 
 
 class MultipleImages(models.Model):

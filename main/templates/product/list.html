@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+
+<br><br>
+<h1>Products List</h1>
+   <div class="row mb-3 posts" id="main">
+     {% for instance in object_list %}
+     <div class="col-md-3 main2">
+         <div class="cards" >
+             <div class="row no-gutters border rounded  flex-md-row mb-4 shadow-sm h-md-250">
+               <div class="col p-4 d-flex flex-column">
+                   <div style="display:flex">
+                      <img src="{{ instance.image.url }}" width="200" height="150">
+                   </div>
+               </div>
+                 <div class="col p-4 d-flex flex-column position-static">
+                     <h3 class="my-1">
+                       <a href="{% url 'main:product_detail' instance.id %}" target="_blank">
+                       {{instance.name}}
+                     </a>
+                   </h3>
+                     <p class="price">
+                       {% if instance.manufacturer %}
+                           <span style="color:lightblue;"><a href="{% url 'main:manufacturer_detail' id=instance.manufacturer.id %}" target="_blank">
+                             {{ instance.manufacturer }}</a>
+                           <span style="color:black;">/</span>
+                         </span>
+                       {% endif %}
+                       {% if instance.category %}
+                           <span style="color:blue;">{{ instance.category }}</span>
+                       {% endif %}
+                       {% if instance.tags.all %}
+                       <div style="display:flex">
+                           {% for tag in instance.tags.all|slice:"0:3" %}
+                           <a href="{% url 'main:tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                           {% endfor %}
+                       </div>
+                       {% else %}
+                       <br><br>
+                       {% endif %}
+                     {% if instance.off != 0 %}
+                     <p class="mb-auto text-muted"><strike style="text-decoration-color:red;"> $ {{instance.initial_price}} </strike></p>
+                     <p class="mb-auto" style="color:red;">Off : {{instance.off}} %</p>
+                     <p class="mb-auto" style="color:green;">$ {{instance.final_price}} <br><br></p>
+                     {% else %}
+                     <p class="mb-auto" style="color:green;"> $ {{instance.initial_price}} <br><br><br><br></p>
+                     {% endif %}
+                         <center>
+                           <div class="product-add">
+                             <!-- <button class="btn btn-success" title="Add To Cart" value="{{ instance.id }}" id="{{ instance.name }}">
+                               <i class="fas fa-shopping-cart"></i>
+                             </button> -->
+                           </div>
+                         </center>
+                 </div>
+             </div>
+         </div>
+     </div>
+    {% endfor %}
+  </div>
+
+ </div>
+
+{% endblock %}

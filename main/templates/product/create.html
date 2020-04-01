@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 <div class="container">
   <br><br>
-  <h1>Manufacturer Update Page </h1>
-  <h3>Updating : <a href="{{ object.get_absolute_url }}">{{ object }} </a></h3>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     {% for field in form %}
          {% if 'Name' in field.label_tag %}
@@ -13,10 +12,22 @@
          <div class="valid-feedback">
            Manufacturer Ok !
          </div>
-         <br><br>
+         <br>
+          {% elif 'tags' in field.label_tag %}
+          <div class="form-group">
+              <label>Tags :</label>
+              <input type="text" data-role="tagsinput" class="form-control" name="tags">
+          </div>
+
+        {% elif 'Multipleimages' in field.label_tag%}
+        <span style="color:blue;">Multiple Images :</span>
+        {{ field }}<br>
+
          {% else %}
+
          {{ field }}<br><br>
          {% endif %}
+
          <br>
          <span id="message">
                {% for error in field.errors %}
@@ -27,9 +38,17 @@
          </span>
        {% endfor %}
        <br><br>
-    <input type="submit" value="Update">
-    <a href="{% url 'main:manufacturer_list' %}">Cancel</a>
+    <input type="submit" value="Create">
   </form>
+  <br><br><br><br>
 </div>
+
+<script src="{% static 'js/easy-number-separator.js' %}"></script>
+<script src="{% static 'js/tagsinput.js' %}"></script>
+<script>
+  $("#post-form").submit(function(e){
+      e.preventDefault();
+      });
+</script>
 
 {% endblock %}

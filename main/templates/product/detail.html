@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load multi_image %}
+
+{% block content %}
+
+<div class="container">
+  <br><br>
+  <img src="{{ object.image.url }}" alt="" width="800" height="600">
+  <br>
+  {% images product as muliti_images %}
+      {% if muliti_images %}
+      {% for image in muliti_images %}
+      <span><img src="/media/{{ image }}" width="100px" height="80px" class="zoom"></span>
+      {% endfor %}
+      {% else %}
+      <span style="color:brown;" class="mx-4">No Multi Images Found</span>
+      <br><br>
+      {% endif %}
+  <br>
+  Name : {{ object.name }} <br>
+  <small> {{ object.model }}</small> <br>
+  {{ object.manufacturer }} / {{ object.category }} <br>
+  {{ object.initial_price }}<br>
+  {{ object.off }}<br>
+  {{ object.final_price }}<br>
+  {{ object.create }}<br>
+  {{ object.update }}<br>
+  {% if user.is_staff %}
+    {{ object.stock }}<br>
+  {% endif %}
+  Content : <br> {{ object.desc }}
+</div>
+{% endblock %}
