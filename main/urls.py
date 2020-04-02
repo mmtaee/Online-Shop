@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from .views import (
                 TaggedView,
                 GetTagsAjaxView,
@@ -25,10 +24,8 @@ from .views import (
 app_name = "main"
 
 urlpatterns = [
-
+    # Tagged urls
     path('tag/<slug:slug>/', TaggedView.as_view(), name="tagged"),
-
-    path('', TemplateView.as_view(template_name="home.html"), name="home"),
 
     #  Product Urls
     path('product/list/',              ProductListView.as_view(),   name='product_list'),

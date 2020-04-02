@@ -48,7 +48,7 @@ class GetTagsAjaxView(View):
     model = Product
     template_name = 'ajax/get_tags.html'
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         if request.is_ajax :
             inputproduct = request.POST.get("inputproduct", None)
             if inputproduct :

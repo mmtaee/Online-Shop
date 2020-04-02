@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+  <div class="container">
+    <h1>
+      Sign Up Page
+    </h1>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+      </p>
+      <span id="message">
+            {% for error in field.errors %}
+            <div class="alert alert-warning" style="width:35%;">
+              {{ error }}
+            </div>
+            {% endfor %}
+      </span>
+    {% endfor %}
+    <input class="btn btn-primary" type="submit" value="Sign Up">
+  </form>
+  <br><br><br><br>
+  </div>
+
+{% endblock %}
