@@ -1,7 +1,6 @@
 from django.urls import path
 from .views import (
                 TaggedView,
-                GetTagsAjaxView,
 
                 ManufacturerListView,
                 ManufacturerDetailView,
@@ -47,7 +46,4 @@ urlpatterns = [
     path('manufacturer/detail/<int:id>/', ManufacturerDetailView.as_view(), name='manufacturer_detail'),
     path('manufacturer/update/<int:id>/', ManufacturerUpdateView.as_view(), name='manufacturer_update'),
     path('manufacturer/delete/<int:id>/', ManufacturerDeleteView.as_view(), name='manufacturer_delete'),
-
-    # Ajax
-    path('ajax/get_tags/', GetTagsAjaxView.as_view()),
 ]

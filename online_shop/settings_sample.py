@@ -35,6 +35,9 @@ INSTALLED_APPS = [
 
     #user
     'user.apps.UserConfig',
+
+    #ajax
+    'ajax.apps.AjaxConfig',
 ]
 
 MIDDLEWARE = [

@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 <div class="container">
+  <h1>Manufacturer Create Page</h1>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     {% for field in form %}
          {% if 'Name' in field.label_tag %}
          {{ field }}
          <div class="valid-feedback">
            Manufacturer Ok !
+         </div>
+         <div class="invalid-feedback">
+           Manufacturer Exists !
          </div>
          <br>
          {% else %}
@@ -24,8 +29,11 @@
          </span>
        {% endfor %}
        <br><br>
-    <input type="submit" value="Create">
+
+    <input class="btn btn-lg btn-primary" type="submit" value="Create">
   </form>
 </div>
+
+<script src="{% static '/js/validator.js' %}"></script>
 
 {% endblock %}

@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container">
-<h1>Products List</h1>
+<h1>Products List Page</h1>
    <div class="row mb-3 posts" id="main">
      {% for instance in object_list %}
      <div class="col-md-3 main2">
@@ -53,11 +53,14 @@
                                <i class="fas fa-shopping-cart"></i>
                              </button>
                            </div>
-                         </center>
                          {% if user.is_superuser %}
-                         <a href="{% url 'main:product_update' id=instance.id %}">Update</a>
-                         <a href="{% url 'main:product_delete' id=instance.id %}">Delete</a>
+                           <div>
+                           <br>
+                           <a href="{% url 'main:product_update' id=instance.id %}">Update</a>
+                           <a href="{% url 'main:product_delete' id=instance.id %}">Delete</a>
+                           </div>
                          {% endif %}
+                         </center>
                  </div>
              </div>
          </div>

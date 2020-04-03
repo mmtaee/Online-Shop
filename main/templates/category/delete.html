@@ -3,10 +3,11 @@
 {% block content %}
 
 <div class="container">
+    <h1>Category Delete Page</h1>
   <form method="post">{% csrf_token %}
     <h1> Category Delete Page</h1>
     <h3>Delete {{ object }} ?</h3>
-    <input type="submit" value="Delete">
+    <input class="btn btn-lg btn-danger" type="submit" value="Delete">
     <a href="{% url 'main:category_list' %}">Cancel</a>
   </form>
 </div>

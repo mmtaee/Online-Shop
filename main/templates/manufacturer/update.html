@@ -1,22 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
 <div class="container">
-  <h1>Manufacturer Update Page </h1>
+  <h1>Manufacturer Update Page</h1>
   <h3>Updating : <a href="{{ object.get_absolute_url }}">{{ object }} </a></h3>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     {% for field in form %}
-         {% if 'Name' in field.label_tag %}
+         {% if 'Edit' in field.label_tag %}
          {{ field }}
          <div class="valid-feedback">
            Manufacturer Ok !
          </div>
-         <br><br>
-         {% else %}
-         {{ field }}<br><br>
-         {% endif %}
+         <div class="invalid-feedback">
+           Manufacturer Exists !
+         </div>
          <br>
+         {% else %}
+          {{ field }}<br><br>
+         {% endif %}
+
          <span id="message">
                {% for error in field.errors %}
                <div class="alert alert-warning" style="width:35%;">
@@ -26,9 +30,10 @@
          </span>
        {% endfor %}
        <br><br>
-    <input type="submit" value="Update">
-    <a href="{% url 'main:manufacturer_list' %}">Cancel</a>
+    <input class="btn btn-lg btn-primary" type="submit" value="Create">
   </form>
 </div>
+
+<script src="{% static '/js/validator.js' %}"></script>
 
 {% endblock %}

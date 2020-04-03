@@ -3,9 +3,8 @@
 {% block content %}
 
 <div class="container">
-  <br><br>
+  <h1>Product Delete Page</h1>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
-    <h1> Product Delete Page</h1>
     <h3>Delete {{ object }} ?</h3>
     <input type="submit" value="Delete">
     <a href="{% url 'main:product_list' %}">Cancel</a>

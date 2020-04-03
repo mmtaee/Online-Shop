@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -9,7 +10,10 @@
     {% for field in form %}
          {{ field }}
          <div class="valid-feedback">
-           Manufacturer Ok !
+           Category Ok !
+         </div>
+         <div class="invalid-feedback">
+           Category Exists !
          </div>
          <br>
          <span id="message">
@@ -21,9 +25,11 @@
          </span>
        {% endfor %}
        <br>
-    <input type="submit" value="Update">
+    <input class="btn btn-lg btn-primary" type="submit" value="Update">
     <a href="{% url 'main:category_list' %}">Cancel</a>
   </form>
 </div>
+
+<script src="{% static '/js/validator.js' %}"></script>
 
 {% endblock %}

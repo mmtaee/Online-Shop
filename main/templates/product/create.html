@@ -4,12 +4,16 @@
 {% block content %}
 
 <div class="container">
+  <h1>Product Create Page</h1>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     {% for field in form %}
          {% if 'Name' in field.label_tag %}
          {{ field }}
          <div class="valid-feedback">
-           Manufacturer Ok !
+           Product Ok !
+         </div>
+         <div class="invalid-feedback">
+           Product Exists !
          </div>
          <br>
           {% elif 'tags' in field.label_tag %}
@@ -38,13 +42,18 @@
 </div>
 
 <script src="{% static 'js/easy-number-separator.js' %}"></script>
+<script src="{% static '/js/validator.js' %}"></script>
 
 <!-- tags input javascript codes -->
 <script src="{% static 'js/tagsinput.js' %}"></script>
+
 <script>
+
   $("#post-form").submit(function(e){
       e.preventDefault();
       });
+
 </script>
+
 
 {% endblock %}

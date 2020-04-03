@@ -11,7 +11,7 @@ class ManufacturerCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['desc'].required = False
-        self.fields['name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Manufacturer Name'})
+        self.fields['name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Manufacturer Name', 'model' : 'Manufacturer'})
         for field in self.fields:
                 self.fields[field].widget.attrs.update({'placeholder' : field.title()})
 
@@ -23,18 +23,19 @@ class ManufacturerCreateForm(forms.ModelForm):
         return name
 
 class ManufacturerEditForm(forms.ModelForm):
-    new_name = forms.CharField(widget=forms.TextInput(), max_length=120)
+    edit = forms.CharField(widget=forms.TextInput(), max_length=120, label="Edit Name")
     class Meta:
         model = Manufacturer
-        fields = ['name', 'new_name', 'image', 'desc']
+        fields = ['name', 'edit', 'image', 'desc']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'].required = False
-        self.fields['new_name'].required = False
+        self.fields['edit'].required = False
         self.fields['desc'].required = False
         self.fields['name'].disabled = True
-        self.fields['new_name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Manufacturer Name'})
+        self.fields['edit'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Manufacturer Name', 'model' : 'Manufacturer'})
+
         for field in self.fields:
                 self.fields[field].widget.attrs.update({'placeholder' : field.title()})
 
@@ -55,7 +56,7 @@ class CategoryModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Category Name'})
+        self.fields['name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Category Name', 'model' : 'Category'})
 
     def clean_name(self):
         cleaned_data = super().clean()
@@ -76,8 +77,7 @@ class ProductCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'inp_text form-control', 'id' : 'validationServer013',})
-        self.fields['initial_price'].widget.attrs.update({'class': 'inp_text form-control', 'id' : 'validationServer013',})
+        self.fields['name'].widget.attrs.update({'class': 'inp_text form-control', 'id' : 'validationServer013', 'model' : 'Product'})
         self.fields['category'].empty_label="Select Category"
         self.fields['manufacturer'].empty_label="Select Manufacturer"
         self.fields['off'].widget.attrs.update({'class': "inp form-control", "min" : "0", "max" : "99"})
@@ -111,23 +111,23 @@ class ProductCreateForm(forms.ModelForm):
 class ProductEditForm(forms.ModelForm):
     clear_images = forms.BooleanField(widget=forms.NullBooleanSelect(), help_text="This Field Can Delete All Old Multiple Images, But Save New Multiple Images ")
     multipleimages = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    new_name = forms.CharField(widget=forms.TextInput(), max_length=120)
+    edit = forms.CharField(widget=forms.TextInput(), max_length=120,)
 
     class Meta:
         model = Product
-        fields = ['name', 'new_name', 'tags', 'initial_price', 'off', 'stock', 'image', 'multipleimages', 'clear_images', 'desc',]
+        fields = ['name', 'edit', 'tags', 'initial_price', 'off', 'stock', 'image', 'multipleimages', 'clear_images', 'desc',]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['new_name'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Product Name',})
-        self.fields['initial_price'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : ' Initial Price'})
+        self.fields['edit'].widget.attrs.update({'class': 'form-control', 'id' : 'validationServer013', 'placeholder' : 'Edit Name', 'model' : 'Product'})
         self.fields['off'].widget.attrs.update({'class': "inp form-control", "min" : "0", "max" : "99"})
         self.fields['stock'].widget.attrs.update({'class': "inp form-control"})
         self.fields['desc'].widget.attrs.update({'rows':10, 'cols':35, 'placeholder':'Description'})
         self.fields['initial_price'].widget.attrs.update({'class': 'number-separator'})
         self.fields['name'].disabled = True
         for field in self.fields:
-            self.fields[field].widget.attrs.update({'placeholder' : field.title()})
+            if field != 'edit':
+                self.fields[field].widget.attrs.update({'placeholder' : field.title()})
             self.fields[field].required = False
 
         self.fields['clear_images'].widget = forms.Select(choices=[(False, "No"),(True, "Yes"),])

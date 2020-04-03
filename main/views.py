@@ -1,8 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.template.defaultfilters import slugify
-from django.http import JsonResponse
-from django.urls import reverse
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -42,32 +40,6 @@ class ModelsObjectMixin(object):
         if id is not None :
             obj = get_object_or_404(self.model, id=id)
         return obj
-
-
-# Ajax Classes
-class GetTagsAjaxView(View):
-    model = Product
-    template_name = 'ajax/get_tags.html'
-
-    @method_decorator(login_required(login_url='/account/login/'))
-    def get(self, request, *args, **kwargs):
-        if request.is_ajax :
-            inputproduct = request.POST.get("inputproduct", None)
-            if inputproduct :
-                tags = Product.objects.filter(id = inputproduct).first().tags.all()
-                all_tags = ""
-                for tag in tags :
-                    if all_tags == "" :
-                         all_tags +=  tag.name
-                    else:
-                        all_tags += "," +  tag.name
-                context = {
-                        'tags' : all_tags,
-                }
-                return render(request, self.template_name, context)
-
-        return JsonResponse({}, status = 400)
-
 
 #  Product Classes
 class ProductListView(ListView):
