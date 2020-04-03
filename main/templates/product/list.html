@@ -56,6 +56,10 @@
                              </button>
                            </div>
                          </center>
+                         {% if user.is_superuser %}
+                         <a href="{% url 'main:product_update' id=instance.id %}">Update</a>
+                         <a href="{% url 'main:product_delete' id=instance.id %}">Delete</a>
+                         {% endif %}
                  </div>
              </div>
          </div>
@@ -76,5 +80,5 @@
        document.cookie = cname + "=" + [cvalue , '1'] + ";" + expires + ";path=/";
      });
  </script>
- 
+
 {% endblock %}

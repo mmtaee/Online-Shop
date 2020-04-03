@@ -18,6 +18,11 @@
   Content : <br> {{ instance.desc }}
 </li>
 <br>
+{% if user.is_superuser %}
+<a href="{% url 'main:manufacturer_update' id=instance.id %}">Update</a>
+<a href="{% url 'main:manufacturer_delete' id=instance.id %}">Delete</a>
+{% endif %}
+
 {% endfor %}
 </ul>
 

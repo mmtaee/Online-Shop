@@ -4,7 +4,8 @@ from django.template.defaultfilters import slugify
 from django.http import JsonResponse
 from django.urls import reverse
 from django.views import View
-
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 from taggit.models import Tag
 from .models import Manufacturer, Category, Product, MultipleImages
@@ -48,6 +49,7 @@ class GetTagsAjaxView(View):
     model = Product
     template_name = 'ajax/get_tags.html'
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         if request.is_ajax :
             inputproduct = request.POST.get("inputproduct", None)
@@ -79,6 +81,7 @@ class ProductDetailView(ModelsObjectMixin, DetailView):
 class ProductCreateView(View):
     template_name = "product/create.html"
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         form = ProductCreateForm()
         context = {
@@ -107,6 +110,7 @@ class ProductUpdateView(ModelsObjectMixin, View):
     template_name = "product/update.html"
     model = Product
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         form = ProductEditForm(instance=obj)
@@ -144,6 +148,7 @@ class ProductDeleteView(ModelsObjectMixin, View):
     template_name = "product/delete.html"
     model = Product
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         context = {
@@ -168,6 +173,8 @@ class CategoryListView(ListView):
 
 class CategoryCreateView(View):
     template_name = 'category/create.html'
+
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         form = CategoryModelForm()
         context = {
@@ -188,6 +195,7 @@ class CategoryUpdateView(ModelsObjectMixin, View):
     template_name = "category/update.html"
     model = Category
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         form = CategoryModelForm(instance=obj)
@@ -212,6 +220,7 @@ class CategoryDeleteView(ModelsObjectMixin, View):
     template_name = "category/delete.html"
     model = Category
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         context = {
@@ -241,6 +250,7 @@ class ManufacturerDetailView(ModelsObjectMixin, DetailView):
 class ManufacturerCreateView(View):
     template_name = "manufacturer/create.html"
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         form = ManufacturerCreateForm()
         context = {
@@ -262,6 +272,7 @@ class ManufacturerUpdateView(ModelsObjectMixin, View):
     template_name = "manufacturer/update.html"
     model = Manufacturer
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         form = ManufacturerEditForm(instance=obj)
@@ -291,6 +302,7 @@ class ManufacturerDeleteView(ModelsObjectMixin, View):
     template_name = "manufacturer/delete.html"
     model = Manufacturer
 
+    @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         context = {

@@ -13,6 +13,10 @@
    {{ instance.name }}
 </li>
 <br>
+{% if user.is_superuser %}
+<a href="{% url 'main:category_update' id=instance.id %}">Update</a>
+<a href="{% url 'main:category_delete' id=instance.id %}">Delete</a>
+{% endif %}
 {% endfor %}
 </ul>
 
