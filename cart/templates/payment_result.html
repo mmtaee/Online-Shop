@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block headscript %}
+<link rel="stylesheet" href="{% static '/css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+<h1>Result</h1>
+
+{% if result %}
+<center>
+Result : {{ result }}
+<br>
+Your Sale Code : {{ code }}
+<br><br><br>
+<button class="btn btn-lg btn-primary" onclick="location.replace('{% url 'cart:cart_history' %}')">
+  Cart History
+</button>
+
+{% else %}
+<center>
+Result : {{ result }}
+<br>
+Sorry , Try Again .
+
+<br><br><br>
+<button class="btn btn-lg btn-primary" onclick="location.replace('{% url 'cart:create' %}')">
+  Back To Cart
+</button>
+
+{% endif %}
+
+</center>
+
+  <br><br><br>
+</div>
+
+{% if result %}
+<script>
+  var cookies = document.cookie.split(";");
+  for(var i=0; i < cookies.length; i++) {
+      var equals = cookies[i].indexOf("=");
+      var name = equals > -1 ? cookies[i].substr(0, equals) : cookies[i];
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"  + ";path=/";
+  }
+</script>
+
+{% endif %}
+
+{% endblock %}

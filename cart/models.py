@@ -13,8 +13,8 @@ class Cart(models.Model):
     total_item = models.PositiveIntegerField(default=0)
     success_code = models.CharField(max_length=256, null=True)
 
-    # def __str__(self):
-    #     return str(self.user) + "- Total Shopping :" + str(self.total_item) + " & " + self.total_price
+    def __str__(self):
+        return str(self.user) + "- Total Shopping :" + str(self.total_item) + " & " + self.total_price
 
     def get_absolute_url(self):
         return reverse('Cart:cart_detail', kwargs={'id':self.id})
@@ -35,5 +35,5 @@ class CartItem(models.Model):
     #     self.price = '{0:,}'.format(price)
     #     super().save(*args, **kwargs)
 
-    # def __str__(self):
-    #     return self.price + "-" + str(self.quantity) + "-id: " + str(self.id)
+    def __str__(self):
+        return self.price + "-" + str(self.quantity) + "-id: " + str(self.id)
