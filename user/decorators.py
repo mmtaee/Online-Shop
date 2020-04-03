@@ -26,9 +26,6 @@ def check_recaptcha(view_func):
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
-
-
-
 def anonymous_required( view_function, redirect_to=None ):
 
     class AnonymousRequired( object ):

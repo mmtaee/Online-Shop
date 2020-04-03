@@ -4,7 +4,6 @@
 {% block content %}
 
 <div class="container">
-  <br><br>
   <h1>Manufacturers List</h1>
 <ul>
 {% for instance in object_list %}
@@ -22,10 +21,8 @@
 <a href="{% url 'main:manufacturer_update' id=instance.id %}">Update</a>
 <a href="{% url 'main:manufacturer_delete' id=instance.id %}">Delete</a>
 {% endif %}
-
 {% endfor %}
 </ul>
-
 </div>
 
 {% endblock %}

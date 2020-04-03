@@ -1,35 +1,25 @@
 <div class="sidenav">
     <a href="/">Home</a>
-
     <a href="{% url 'main:manufacturer_list' %}">Manufacturers List</a>
-
   {% if user.is_superuser %}
     <a href="{% url 'main:manufacturer_create' %}">Manufacturer Create</a>
   {% endif %}
-
     <a href="{% url 'main:category_list' %}">Categories List</a>
-
   {% if user.is_superuser %}
     <a href="{% url 'main:category_create' %}">Categories Create</a>
   {% endif %}
-
     <a href="{% url 'main:product_list'%}">Product List</a>
-
   {% if user.is_superuser %}
     <a href="{% url 'main:product_create'%}">Product Create</a>
   {% endif %}
-
   <a href="{% url 'cart:create' %}">Cart</a>
-
   {% if user.is_authenticated %}
-
+    <a href="{% url 'cart:cart_history' %}">Cart History</a>
     <a href="{% url 'user:logout' %}">Logout</a>
     <a href="{% url 'user:change_password' %}">Change Password</a>
-
   {% else %}
     <a href="{% url 'user:login' %}">Login</a>
     <a href="{% url 'user:signup' %}">Sign Up</a>
     <a href="{% url 'user:forgot_password' %}">Forgot Password</a>
   {% endif %}
-
 </div>

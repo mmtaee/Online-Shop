@@ -1,21 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block headscript %}
 <link rel="stylesheet" href="{% static '/css/cart.css' %}">
 {% endblock %}
 
-
 {% block content %}
-
 <div class="container">
-
 <h1>Shopping Cart</h1>
-
-
 <div class="shopping-cart">
-
   <div class="column-labels">
     <label class="product-image">Image</label>
     <label class="product-details">Product</label>
@@ -23,9 +16,6 @@
     <label class="product-quantity">Quantity</label>
     <label class="product-line-price">Total</label>
   </div>
-
-
-
 {% for cartitem in object_list %}
   <div class="product">
     <div class="product-image">
@@ -42,15 +32,7 @@
     </div>
     <div class="product-line-price">{{ cartitem.price }}</div>
   </div>
-
 {% endfor %}
-
-
 </div>
-<br><br><br>
 </div>
-
-
-
-
 {% endblock %}

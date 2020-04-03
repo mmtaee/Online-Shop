@@ -4,7 +4,6 @@
 {% block content %}
 
 <div class="container">
-  <br><br>
   <img src="{{ object.image.url }}" alt="" width="800" height="600">
   <br>
   {% images product as muliti_images %}
@@ -16,7 +15,6 @@
       <span style="color:brown;" class="mx-4">No Multi Images Found</span>
       <br><br>
       {% endif %}
-
   <br><br>
   <div class="product-add">
     <button class="btn btn-success" title="Add To Cart" value="{{ product.id }}" id="{{ product.name }}">
@@ -24,10 +22,8 @@
     </button>
   </div>
   <br><br>
-
   Name : {{ object.name }} <br>
   <small> {{ object.model }}</small> <br>
-
   {{ object.manufacturer }} / {{ object.category }} <br>
   Initial Price : {{ object.initial_price }}<br>
   Off : {{ object.off }}<br>
@@ -48,6 +44,7 @@
   <br><br><br><br>
 </div>
 
+<!-- javascript code for add product details to ccokie -->
 <script>
   $('.product-add button').click( function() {
       var cname = $(this).attr('id');

@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="container">
-  <br><br>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
     {% for field in form %}
          {% if 'Name' in field.label_tag %}

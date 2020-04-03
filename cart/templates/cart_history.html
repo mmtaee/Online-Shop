@@ -6,11 +6,8 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
-
 <h1>Cart History</h1>
-
 <div class="shopping-cart">
   <div class="column-labels">
     <label class="product-image">Image</label>
@@ -20,7 +17,6 @@
     <label class="product-quantity">Quantity</label>
     <label class="product-line-price">Total</label>
   </div>
-
 {% for cart in object_list %}
   <div class="product">
     <div class="product-image">
@@ -31,18 +27,13 @@
     </div>
     <div class="product-removal"><a href="{% url 'cart:cart_detail' id=cart.id%}" target="_blank">Detail</a></div>
     <div class="product-price">{{ cart.checkout }}</div>
-
     <div class="product-quantity">
       {{ cart.total_item }}
     </div>
     <div class="product-line-price">{{ cart.total_price }}</div>
   </div>
-
 {% endfor %}
-
-  <br><br><br>
 </div>
-
 </div>
 
 {% endblock %}

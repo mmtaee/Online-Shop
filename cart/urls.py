@@ -13,6 +13,4 @@ urlpatterns = [
     path('history/', CartHistoryView.as_view(), name='cart_history'),
     path('checkout/', CartCheckOutView.as_view(), name='checkout'),
     path('detail/<int:id>/', CartDetailView.as_view(), name='cart_detail'),
-
-
 ]

@@ -1,4 +1,3 @@
-
 # views.py
 # login view with form cleaned_data
 class UserLoginView(View):
@@ -36,7 +35,6 @@ class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=150, label=_("Username"))
     password = forms.CharField(max_length=32, widget=forms.PasswordInput(), label=_("Password"))
 
-
     def clean_username(self):
         cleaned_data = super().clean()
         username = self.cleaned_data['username']
@@ -51,5 +49,3 @@ class UserLoginForm(forms.Form):
             if not authenticate(username=self.cleaned_data['username'], password=password):
                 raise forms.ValidationError(_("Invalid Password"))
         return password
-
------------------------------------------------------------------------------------------------------

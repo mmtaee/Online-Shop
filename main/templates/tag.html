@@ -1,46 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
-
-
-{% endblock %}
-
 {% block content %}
 <div class="container">
-  <br><br>
-<p>Common Tags:
-           {% for tag in common_tags %}
-               <a href="{% url 'main:tagged' tag.slug %}" class="badge badge-success">{{tag}}</a>
-           {% endfor %}
-           </p>
-           <div class="row mb-2 posts">
-                   {% for product in query %}
-                   <div class="col-md-3">
-                       <div class="cards">
-                           <div class="row no-gutters border rounded  flex-md-row mb-4 shadow-sm h-md-250">
-                             <div class="col p-1">
-                                 <div style="display:flex">
-                                    <img src="{{ product.image.url }}" height="200px">
-                                 </div>
-                             </div>
-                               <div class="col p-4 d-flex flex-column position-static">
-                                   <h3 class="my-1"><a href="{% url 'main:product_detail' product.id %}">{{product.name}}</a></h3>
-                                   <div style="display:flex">
-                                       {% for tag in product.tags.all|slice:"0:3" %}
-                                       <a href="{% url 'main:tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
-                                       {% endfor %}
-                                   </div>
-                                   <p class="mb-auto"><strike style="text-decoration-color:red;"> $ {{product.initial_price}} </strike></p>
-                                   <p class="mb-auto">Off : {{product.off}} %</p>
-                                   <p class="mb-auto text-muted">$ {{product.final_price}}</p>
-                               </div>
-                           </div>
+  <p>Common Tags:
+  {% for tag in common_tags %}
+     <a href="{% url 'main:tagged' tag.slug %}" class="badge badge-success">{{tag}}</a>
+  {% endfor %}
+  </p>
+  <div class="row mb-2 posts">
+    {% for product in query %}
+       <div class="col-md-3">
+           <div class="cards">
+               <div class="row no-gutters border rounded  flex-md-row mb-4 shadow-sm h-md-250">
+                 <div class="col p-1">
+                     <div style="display:flex">
+                        <img src="{{ product.image.url }}" height="200px">
+                     </div>
+                 </div>
+                   <div class="col p-4 d-flex flex-column position-static">
+                       <h3 class="my-1"><a href="{% url 'main:product_detail' product.id %}">{{product.name}}</a></h3>
+                       <div style="display:flex">
+                           {% for tag in product.tags.all|slice:"0:3" %}
+                           <a href="{% url 'main:tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a>
+                           {% endfor %}
                        </div>
+                       <p class="mb-auto"><strike style="text-decoration-color:red;"> $ {{product.initial_price}} </strike></p>
+                       <p class="mb-auto">Off : {{product.off}} %</p>
+                       <p class="mb-auto text-muted">$ {{product.final_price}}</p>
                    </div>
-                   {% endfor %}
+               </div>
            </div>
-           <br><br><br><br><br><br><br><br>
        </div>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}

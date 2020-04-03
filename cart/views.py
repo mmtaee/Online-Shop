@@ -12,7 +12,6 @@ from main.views import ModelsObjectMixin
 import random
 import string
 
-
 class CartCreateView(View):
     template_name = 'cart_create.html'
 
@@ -63,19 +62,15 @@ class CartCheckOutView(View):
             cart = Cart.objects.create(user=self.request.user)
         cart = get_object_or_404(Cart, user=request.user, checkout=False)
         for id,quantity in zip(ids, quantity):
-
             product = get_object_or_404(Product, id=id)
             price = int(product.final_price.replace("," , "")) * int(quantity)
             price = '{0:,}'.format(price)
-
             cartitem = CartItem.objects.create(
                     cart = cart,
                     product = product,
                     quantity = int(quantity),
                     price = price,
             )
-
-
 #     # TODO: after banke payment clear cookie and checkout in cart = True
 #         # # TODO:  Check Bank resalt ok than make code and clear history and save cart in checkout = True
 #         # result = ?  # TODO: chek api bank result True make code
@@ -95,9 +90,8 @@ class CartHistoryView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = self.queryset.filter(user=self.request.user)
+        queryset = self.queryset.filter(user=self.request.user).order_by('-created')
         return queryset
-
 
 class CartDetailView(ModelsObjectMixin, ListView):
     template_name = 'cart_detail.html'

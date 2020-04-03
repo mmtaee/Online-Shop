@@ -6,11 +6,10 @@
 <head>
   <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="Masoud Taee" content="">
-
   <link rel="stylesheet" href="{% static '/bootstrap-4/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static '/css/all.css' %}">
   <link rel="stylesheet" href="{% static '/css/tagsinput.css' %}">
+  <link rel="stylesheet" href="{% static '/css/sidebar.css' %}">
+
 <!-- fontawesome -->
   <link rel="stylesheet" href="{% static '/fontawesome-5.12/css/all.css' %}" >
   <link rel="stylesheet" href="{% static '/fontawesome-5.12/css/fontawesome.css' %}" >
@@ -20,6 +19,7 @@
   <script src="{% static '/fontawesome-5.12/js/solid.js' %}"></script>
   <script src="{% static '/fontawesome-5.12/js/fontawesome.js' %}"></script>
 <!--  -->
+
   <script src="{% static '/js/jquery.min.js' %}"></script>
   <script src="{% static '/js/popper.min.js' %}"></script>
   <script src="{% static '/bootstrap-4/js/bootstrap.min.js' %}"></script>
@@ -28,63 +28,26 @@
 
   {% endblock %}
 
-<style>
-body {
-  font-family: "Lato", sans-serif;
-}
+  <style>
+    {% block css %}
 
-.sidenav {
-  width: auto;
-  position: fixed;
-  z-index: 1;
-  top: 20px;
-  left: 10px;
-  background: #eee;
-  overflow-x: hidden;
-  padding: 8px 0;
-}
+    {% endblock %}
+  </style>
 
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #2196F3;
-  display: block;
-}
+  <title>
+    A Django Online Shop, Created By Masoud Taee
+      {% block title %}
+      {% endblock %}
+  </title>
 
-.sidenav a:hover {
-  color: #064579;
-}
+</head>
 
-.main {
-  margin-left: 140px; /* Same width as the sidebar + left position in px */
-  font-size: 28px; /* Increased text to enable scrolling */
-  padding: 0px 10px;
-}
+<body>
+      {% include 'sidebar.html' %}
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
+      {% block content %}
+      
+      {% endblock %}
 
-  {% block css %}
-
-  {% endblock %}
-</style>
-
-    <title>
-      A Django Online Shop
-        {% block title %}
-        {% endblock %}
-    </title>
-
-  </head>
-
-  <body>
-        {% include 'sidebar.html' %}
-        {% block content %}
-        {% endblock %}
-
-<script src='https://www.google.com/recaptcha/api.js'></script>
-  </body>
+</body>
 </html>

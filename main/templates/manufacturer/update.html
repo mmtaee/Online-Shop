@@ -3,7 +3,6 @@
 {% block content %}
 
 <div class="container">
-  <br><br>
   <h1>Manufacturer Update Page </h1>
   <h3>Updating : <a href="{{ object.get_absolute_url }}">{{ object }} </a></h3>
   <form method="post" enctype="multipart/form-data">{% csrf_token %}

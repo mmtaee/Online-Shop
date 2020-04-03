@@ -6,12 +6,8 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="container">
-
-
 <h1>Result</h1>
-
 {% if result %}
 <center>
 Result : {{ result }}
@@ -21,27 +17,22 @@ Your Sale Code : {{ code }}
 <button class="btn btn-lg btn-primary" onclick="location.replace('{% url 'cart:cart_history' %}')">
   Cart History
 </button>
-
 {% else %}
 <center>
 Result : {{ result }}
 <br>
 Sorry , Try Again .
-
-<br><br><br>
 <button class="btn btn-lg btn-primary" onclick="location.replace('{% url 'cart:create' %}')">
   Back To Cart
 </button>
-
 {% endif %}
-
 </center>
 
-  <br><br><br>
 </div>
 
 {% if result %}
 <script>
+  // clear all cookie after complete Payment
   var cookies = document.cookie.split(";");
   for(var i=0; i < cookies.length; i++) {
       var equals = cookies[i].indexOf("=");
@@ -49,7 +40,6 @@ Sorry , Try Again .
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"  + ";path=/";
   }
 </script>
-
 {% endif %}
 
 {% endblock %}

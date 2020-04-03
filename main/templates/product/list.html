@@ -4,8 +4,6 @@
 {% block content %}
 
 <div class="container">
-
-<br><br>
 <h1>Products List</h1>
    <div class="row mb-3 posts" id="main">
      {% for instance in object_list %}
@@ -66,10 +64,9 @@
      </div>
     {% endfor %}
   </div>
-
  </div>
 
-
+<!-- javascript code for add product details to ccokie -->
  <script>
    $('.product-add button').click( function() {
        var cname = $(this).attr('id');
