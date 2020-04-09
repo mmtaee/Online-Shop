@@ -38,6 +38,9 @@ INSTALLED_APPS = [
 
     #ajax
     'ajax.apps.AjaxConfig',
+
+    #api
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +123,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# api settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

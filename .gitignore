@@ -10,3 +10,5 @@ settings.py
 venv/
 media/
 TODO.txt
+migrations/
+note.txt
