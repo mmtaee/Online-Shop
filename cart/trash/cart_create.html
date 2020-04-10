@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block headscript %}
+<link rel="stylesheet" href="{% static '/css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+{% if empty %}
+<h1> The cart has expired or product has not been added.  </h1>
+{% else %}
+<h1>Shopping Cart</h1>
+<div class="shopping-cart">
+  <div class="column-labels">
+    <label class="product-image">Image</label>
+    <label class="product-details">Product</label>
+    <label class="product-price">Price</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Remove</label>
+    <label class="product-line-price">Total</label>
+  </div>
+{% for product in products %}
+  <div class="product">
+    <div class="product-image">
+      <img src="{{ product.product.image.url }}">
+    </div>
+    <div class="product-details">
+      <div class="product-id">{{ product.product.id }}</div>
+      <div class="product-title">{{ product.product.name }}</div>
+      <p class="product-description"><span style="color:gray;"><strike>{{ product.product.initial_price }}</strike></span> - <span style="color:green;">%{{ product.product.off }}</span></p>
+    </div>
+    <div class="product-price">{{ product.product.final_price }}</div>
+    <div class="product-quantity">
+      <input class="quantity" type="number" value="{{ product.quantity }}" max="3" min="1">
+    </div>
+    <div class="product-removal">
+      <button class="remove-product" value="{{ product.product.id }}" id="{{ product.product.name }}">
+        Remove
+      </button>
+    </div>
+    <div class="product-line-price">{{ product.price }}</div>
+  </div>
+{% endfor %}
+  <div class="totals">
+    <div class="totals-item totals-item-total">
+      <label>Total Price</label>
+      <div class="totals-value" id="cart-total">{{ total_price }}</div>
+    </div>
+  </div>
+{% if user.is_authenticated %}
+<button class="checkout" id="finalize">Finalize</button>
+<form class="form" action="{% url 'cart:checkout' %}" method="post" >
+  {% csrf_token %}
+<input type="text" name="id" value="" style="display: none;" id="id">
+<input type="text" name="quantity" value="" style="display: none;" id="quantity">
+<input type="submit" class="checkout_button" id="checkout_button" name="checkout" value="Checkout" style="display: none;">
+</form>
+{% else %}
+<a href="{% url 'user:login' %}?next={{ request.get_full_path|urlencode }}" class="checkout" >Login</a>
+{% endif %}
+</div>
+{% endif %}
+</div>
+
+<script src="{% static '/js/cart_create.js' %}"></script>
+
+{% endblock %}
