@@ -6,10 +6,15 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('main/', include('main.urls')),
+    path('main/api/', include('main.api.urls'),),
+
     path('cart/', include('cart.urls')),
+
     path('account/', include('user.urls')),
     path('account/api/', include('user.api.urls'),),
+    
     path('ajax/', include('ajax.urls')),
     path('', TemplateView.as_view(template_name="home.html"), name="home"),
 ]

@@ -135,6 +135,7 @@ class ProductDeleteView(ModelsObjectMixin, View):
         }
         if obj:
             obj.delete()
+            # TODO : delete tags 
         return redirect('main:product_list')
 
 
