@@ -33,6 +33,15 @@
     <div class="product-line-price">{{ cartitem.price }}</div>
   </div>
 {% endfor %}
+
+    <div class="totals">
+    <div class="totals-item totals-item-total">
+      <label>Total Price</label>
+      <div class="totals-value" id="cart-total">
+        {% with object_list|first as first_cartitem %}{{ first_cartitem.cart.total_price }}{% endwith %}
+    </div>
+    </div>
+  </div>
 </div>
 </div>
 {% endblock %}

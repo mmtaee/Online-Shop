@@ -16,6 +16,7 @@ class CartCreateView(View):
     template_name = 'cart_create.html'
 
     def get(self, request, *args, **kwargs):
+        added_product = []
         context = {}
         products = []
         total_price = "0"
@@ -35,11 +36,50 @@ class CartCreateView(View):
                     price = '{0:,}'.format(int_price)
                     total_price = int(total_price.replace(",","")) + int_price
                     total_price = '{0:,}'.format(total_price)
+
+                    # add cookie to cartitem > login user
+                    if request.user.is_authenticated:
+                        if not Cart.objects.filter(user=request.user, checkout=False).exists():
+                            cart = Cart.objects.create(user=request.user, checkout=False)
+                        cart = Cart.objects.filter(user=request.user, checkout=False).first()
+                        
+                        if not CartItem.objects.filter(product=product, cart=cart) :
+                            cartitem = CartItem.objects.create(
+                                                product=product, 
+                                                cart=cart,
+                                                quantity=instance[1],
+                                                price = price,
+                                                )
+                        else :
+                            cartitem = CartItem.objects.filter(product=product, cart=cart).first()
+                            cartitem.quantity = instance[1]
+                            cartitem.price = price
+                            cartitem.save()
+
+                    added_product.append(product)
                     products.append({
                                     'product' : product, # product query
                                     'quantity' : instance[1], # quantity in cookie
                                     'price' : price,  # product.price * quantity
                                     })
+
+
+        # this part checks item cart that if not in cookie
+        if request.user.is_authenticated:
+            if not Cart.objects.filter(user=request.user, checkout=False).exists():
+                cart = Cart.objects.create(user=request.user, checkout=False)
+            cart = Cart.objects.filter(user=request.user, checkout=False).first()
+            for item in CartItem.objects.filter(cart=cart):
+                if item.product not in added_product :
+                    product = Product.objects.filter(name=item.product).first()
+                    total_price = int(total_price.replace(",", "")) + int(item.price.replace(",", ""))
+                    total_price = '{0:,}'.format(total_price)
+                    products.append({
+                                    'product' : product, 
+                                    'quantity' : item.quantity, 
+                                    'price' : item.price, 
+                                    })
+
 
         if count == 0 :
             context = {
@@ -55,25 +95,11 @@ class CartCheckOutView(View):
     template_name = 'payment_result.html'
 
     @method_decorator(login_required(login_url='/account/login/'))
-    def post(self, request, *args, **kwargs):
-        ids = request.POST.get('id').split(",")
-        quantity = request.POST.get('quantity').split(",")
-        if not Cart.objects.filter(user=self.request.user, checkout=False).exists():
-            cart = Cart.objects.create(user=self.request.user)
-        cart = get_object_or_404(Cart, user=request.user, checkout=False)
-        for id,quantity in zip(ids, quantity):
-            product = get_object_or_404(Product, id=id)
-            price = int(product.final_price.replace("," , "")) * int(quantity)
-            price = '{0:,}'.format(price)
-            cartitem = CartItem.objects.create(
-                    cart = cart,
-                    product = product,
-                    quantity = int(quantity),
-                    price = price,
-            )
+    def get(self, request, *args, **kwargs):
 #     # TODO: after banke payment clear cookie and checkout in cart = True
 #         # # TODO:  Check Bank resalt ok than make code and clear history and save cart in checkout = True
 #         # result = ?  # TODO: chek api bank result True make code
+        cart = get_object_or_404(Cart, user=request.user, checkout=False)
         key = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
         cart.success_code = key
         cart.checkout = True

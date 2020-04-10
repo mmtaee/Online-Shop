@@ -7,30 +7,30 @@
 
 
 
-  $(function () {
-      $('#finalize').on('click', function () {
+  // $(function () {
+  //     $('#finalize').on('click', function () {
 
-        var id_list = [];
-        var quantity_list = [];
+  //       var id_list = [];
+  //       var quantity_list = [];
 
-        $('.product-id').each(function () {
-          var ID = $(this).text();
-          id_list.push(ID);
-        });
+  //       $('.product-id').each(function () {
+  //         var ID = $(this).text();
+  //         id_list.push(ID);
+  //       });
 
-        $('.quantity').each(function () {
-          var quantity = $(this).val();
-          quantity_list.push(quantity);
-        });
+  //       $('.quantity').each(function () {
+  //         var quantity = $(this).val();
+  //         quantity_list.push(quantity);
+  //       });
 
-        $("#id").val(id_list.toString());
-        $("#quantity").val(quantity_list.toString());
-        $(".form").attr("visibility","visible");
-        $("#finalize").hide();
-        $("#checkout_button").show();
+  //       $("#id").val(id_list.toString());
+  //       $("#quantity").val(quantity_list.toString());
+  //       $(".form").attr("visibility","visible");
+  //       $("#finalize").hide();
+  //       $("#checkout_button").show();
 
-      });
-  });
+  //     });
+  // });
 
 
 

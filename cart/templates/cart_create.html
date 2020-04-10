@@ -49,15 +49,13 @@
     </div>
   </div>
 {% if user.is_authenticated %}
-<button class="checkout" id="finalize">Finalize</button>
-<form class="form" action="{% url 'cart:checkout' %}" method="post" >
-  {% csrf_token %}
-<input type="text" name="id" value="" style="display: none;" id="id">
-<input type="text" name="quantity" value="" style="display: none;" id="quantity">
-<input type="submit" class="checkout_button" id="checkout_button" name="checkout" value="Checkout" style="display: none;">
-</form>
+  <a href="{% url 'cart:checkout' %}" class="checkout" >  
+    Check Out
+  </a>
 {% else %}
-<a href="{% url 'user:login' %}?next={{ request.get_full_path|urlencode }}" class="checkout" >Login</a>
+  <a href="{% url 'user:login' %}?next={{ request.get_full_path|urlencode }}" class="checkout" >  
+    Login
+  </a>
 {% endif %}
 </div>
 {% endif %}
