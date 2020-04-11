@@ -42,10 +42,10 @@ class CartCreateView(View):
                         if not Cart.objects.filter(user=request.user, checkout=False).exists():
                             cart = Cart.objects.create(user=request.user, checkout=False)
                         cart = Cart.objects.filter(user=request.user, checkout=False).first()
-                        
+
                         if not CartItem.objects.filter(product=product, cart=cart) :
                             cartitem = CartItem.objects.create(
-                                                product=product, 
+                                                product=product,
                                                 cart=cart,
                                                 quantity=instance[1],
                                                 price = price,
@@ -75,9 +75,9 @@ class CartCreateView(View):
                     total_price = int(total_price.replace(",", "")) + int(item.price.replace(",", ""))
                     total_price = '{0:,}'.format(total_price)
                     products.append({
-                                    'product' : product, 
-                                    'quantity' : item.quantity, 
-                                    'price' : item.price, 
+                                    'product' : product,
+                                    'quantity' : item.quantity,
+                                    'price' : item.price,
                                     })
 
 
@@ -96,9 +96,9 @@ class CartCheckOutView(View):
 
     @method_decorator(login_required(login_url='/account/login/'))
     def get(self, request, *args, **kwargs):
-#     # TODO: after banke payment clear cookie and checkout in cart = True
-#         # # TODO:  Check Bank resalt ok than make code and clear history and save cart in checkout = True
-#         # result = ?  # TODO: chek api bank result True make code
+         # TODO: after banke payment clear cookie and checkout in cart = True
+         # Check Bank resalt ok than make code and clear history and save cart in checkout = True
+         # result = ?
         cart = get_object_or_404(Cart, user=request.user, checkout=False)
         key = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(12))
         cart.success_code = key
