@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 from taggit.models import Tag
 from .models import Manufacturer, Category, Product, MultipleImages
@@ -130,12 +131,12 @@ class ProductDeleteView(ModelsObjectMixin, View):
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
-        context = {
-                    'object' : obj,
-        }
         if obj:
             obj.delete()
-            # TODO : delete tags 
+
+            # delete unused tag after delete item
+            Tag.objects.annotate(ntag=Count('taggit_taggeditem_items')).filter(ntag=0).delete()
+
         return redirect('main:product_list')
 
 

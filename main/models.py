@@ -46,7 +46,7 @@ class Product(models.Model):
     stock           = models.IntegerField(null=True, blank=True)
     initial_price   = models.CharField(max_length=300)
     final_price     = models.CharField(max_length=300)
-    tags = TaggableManager()
+    tags            = TaggableManager()
 
     def __str__(self):
         return self.name
