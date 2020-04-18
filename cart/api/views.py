@@ -118,7 +118,7 @@ class CartDetailApiView(generics.ListAPIView):
 		response = super().list(request, *args, **kwargs)
 		if not response.data :
 			data = {
-				'cart crete' : self.request.build_absolute_uri(reverse('cart_api:cart_create')),
+				'cart crete' : request.build_absolute_uri(reverse('cart_api:cart_create')),
 				'message': 'This cart has not any products',
 			}
 			return Response(data,  status=status.HTTP_400_BAD_REQUEST)

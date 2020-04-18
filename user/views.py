@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from django.contrib.auth import login ,logout, authenticate, REDIRECT_FIELD_NAME
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string

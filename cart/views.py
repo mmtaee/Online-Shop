@@ -1,9 +1,10 @@
-from django.shortcuts import render, Http404, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.http import Http404
 
 from main.models import *
 from .models import *
@@ -30,7 +31,7 @@ class CartCreateView(View):
                 else :
                     count += 1
                     product = Product.objects.filter(id=instance[0]).first()
-                    name = product.name
+                    # name = product.name
                     final_price = product.final_price
                     int_price = int(final_price.replace(",","")) * int(instance[1])
                     price = '{0:,}'.format(int_price)
