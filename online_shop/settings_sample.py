@@ -41,6 +41,9 @@ INSTALLED_APPS = [
 
     #api
     'rest_framework',
+
+    #  celery extensions for cache as result in db
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +107,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# django cach
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -121,6 +133,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# for deployment
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -131,5 +146,21 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.permissions.AllowAny',
+
     ]
 }
+
+
+# celery
+
+# cach
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'default'
+
+# redis
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASKS_SERIALIZER = 'json'

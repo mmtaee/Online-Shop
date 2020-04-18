@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth import login ,logout, authenticate, REDIRECT_FIELD_NAME
+
 from django.contrib.sites.shortcuts import get_current_site
+
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -31,6 +34,7 @@ from .forms import(
 from .tocken import account_activation_token
 from .models import TokenReset
 from .decorators import anonymous_required
+from .tasks import send_email_task
 
 
 class EmailCreator(object):
@@ -41,7 +45,7 @@ class EmailCreator(object):
         current_site = get_current_site(self.request)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         self.token = account_activation_token.make_token(user)
-        message = render_to_string (self.render_to_string, {
+        message = render_to_string (self.template, {
                         'user': user,
                         'domain': current_site.domain,
                         'uid': uid,
@@ -97,7 +101,7 @@ class UserSignUpView(EmailCreator, FormView):
     form_class = UserSignUpForm
     template_name = 'signup.html'
     subject = "Activation Link"
-    render_to_string = "activate_link.html"
+    template = "activate_link.html"
     success_url = "/account/login/"
     faild_url = "/account/signup/"
 
@@ -109,7 +113,15 @@ class UserSignUpView(EmailCreator, FormView):
         user = form.save(commit=False)
         user.is_active = False
         user.save()
-        email = self.send_email(user)
+
+        # send email without celery
+        # self.send_email(user)
+
+        # send email with celery
+        current_site = get_current_site(self.request)
+        domain = current_site.domain
+        send_email_task.delay(user.pk, domain, self.template, self.subject)
+
         return super().form_valid(form)
 
 class UserActivation(View):
@@ -135,7 +147,7 @@ class UserForgotPasswordView(EmailCreator, FormView):
     form_class = UserForgotPasswordForm
     template_name = 'forgot_password.html'
     subject = "Password Reset Link"
-    render_to_string = "forgot_password_link.html"
+    template = "forgot_password_link.html"
     success_url = "/account/login/"
     faild_url = "/account/signup/"
 
@@ -153,7 +165,14 @@ class UserForgotPasswordView(EmailCreator, FormView):
         except (TokenReset.DoesNotExist) :
             pass
 
-        email = self.send_email(user)
+        # send email without celery
+        # self.send_email(user)
+
+        # send email with celery
+        current_site = get_current_site(self.request)
+        domain = current_site.domain
+        send_email_task.delay(user.pk, domain, self.template, self.subject)
+
         key = TokenReset(user=user, resettoken=self.token)
         key.save()
         return super().form_valid(form)
@@ -189,7 +208,6 @@ class UserForgotPassword(View):
             user = get_object_or_404(User, pk=uid)
             user.set_password(new_password)
             user.save()
-            print(user.username, new_password)
             _user = authenticate(self.request, username=user.username, password=new_password)
             if _user is not None:
                 login(self.request, _user)
