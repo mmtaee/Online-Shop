@@ -1,0 +1,52 @@
+version: "3"
+services:
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/src
+      - ./nginx:/etc/nginx/conf.d
+      - ./static:/static
+      - ./media:/media
+    depends_on:
+      - web
+
+  web:
+    build: .
+    container_name: django
+    command: bash -c "python manage.py makemigrations user main cart && python manage.py migrate && gunicorn online_shop.wsgi -b 0.0.0.0:8000 && celery worker --app=user.tasks"
+    depends_on:
+      - db
+    volumes:
+      - .:/src
+      - ./static:/static
+      - ./media:/media
+    expose:
+      - "8000"
+    links:
+      - db:db
+
+  db:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment: 
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_DB=db"
+      - "POSTGRES_USER=postgres"
+    ports: 
+      - "5432"
+    volumes:
+      - ./docker_volumes/postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379"
+    volumes:
+      - ./docker_volumes/redis:/data
+    entrypoint: redis-server --appendonly yes

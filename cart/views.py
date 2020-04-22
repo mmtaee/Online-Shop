@@ -64,7 +64,6 @@ class CartCreateView(View):
                                     'price' : price,  # product.price * quantity
                                     })
 
-
         # this part checks item cart that if not in cookie
         if request.user.is_authenticated:
             if not Cart.objects.filter(user=request.user, checkout=False).exists():
@@ -80,7 +79,6 @@ class CartCreateView(View):
                                     'quantity' : item.quantity,
                                     'price' : item.price,
                                     })
-
 
         if count == 0 :
             context = {

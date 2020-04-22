@@ -31,8 +31,6 @@ def send_email_task(user_pk, domain, template, subject):
         email = EmailMessage(email_subject, message, to=[to_email])
         email.send()
     except :
-        if settings.DEBUG :
-            print(message)
-        else :
-            pass
-    return None
+        return False
+
+    return True
