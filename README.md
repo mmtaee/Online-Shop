@@ -18,6 +18,7 @@ without docker :
                 database config
 
 with docker :
+
         >> docker-compose build
         >> docker-compose up -d
 
